@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="/js/account.js"></script>
+    <link rel="stylesheet" href="/css/account.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="topnav" id="myTopnav">
+        <a id="home">Home</a>
+        <a id="portfolio">Portfolio</a>
+        <a id="yourAccount" class="active">Your Account</a>
+        <a id="logout">Logout</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
+    <div style="padding-left:16px">
+        <div class="center">
+            <h2>Account HTML</h2>
+        </div>
+    </div>
+    <div class="account-container">
+        <p id="username" class="account-field">Username:</p>
+        <p id="firstName" class="account-field">First Name:</p>
+        <p id="lastName" class="account-field">Last Name:</p>
+        <p id="DOB" class="account-field">Date of Birth:</p>
+
+        <form id="updateForm">
+            <label for="username">Username:</label>
+            <input type="text" id="usernameInput" required>
+
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstNameInput" required>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastNameInput" required>
+
+            <label for="DOB">Address:</label>
+            <input type="text" id="DOBInput" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="passwordInput" required>
+
+            <button type="button" class="update" onclick="updateAccount()">Update Account</button>
+        </form>
+
+        <form id="deleteForm" onsubmit="return ConfirmDeleteAccount();">
+            <button type="submit">Delete Account</button>
+        </form>
+    </div>
+</body>
+
+</html>

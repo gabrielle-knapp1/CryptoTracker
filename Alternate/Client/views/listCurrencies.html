@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top 50 Cryptocurrencies</title>
+  <script type="module" src="./js/listCurrencies.js"></script>
+  <link rel="stylesheet" type="text/css" href="./css/listCurrencies.css">
+</head>
+
+<body>
+  <div class="topnav" id="myTopnav">
+    <a id="home" class="active">Home</a>
+    <a id="portfolio">Portfolio</a>
+    <a id="yourAccount">Your Account</a>
+    <a id="logout">Logout</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+  <h2>Top 100 Cryptocurrencies</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Symbol</th>
+        <th>Price (USD)</th>
+        <th>% Change 24H</th>
+        <!-- Add more columns for other attributes as needed -->
+      </tr>
+    </thead>
+    <tbody id="cryptoTableBody">
+      <!-- Table rows will be dynamically added here -->
+    </tbody>
+  </table>
+  <dialog id="cryptoModal">
+    <div id="modalContent">
+      <!-- Modal content will be dynamically added here -->
+    </div>
+    <button id="closeModal">Close</button>
+  </dialog>
+  <button onclick="getCurrencies()">Get Crypto</button>
+</body>
+
+</html>
