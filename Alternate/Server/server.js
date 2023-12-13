@@ -56,6 +56,7 @@ app.get('/', (req, res) => {
 });*/
 //views
 app.get('/', function (req, res) {res.sendFile('index.html', {root: '../Client/views'})});
+app.get('/index', function (req, res) {res.sendFile('index.html', {root: '../Client/views'})});
 app.get('/account', function (req, res) {res.sendFile('account.html', {root: '../Client/views'})});
 app.get('/home', function (req, res) {res.sendFile('listCurrencies.html', {root: '../Client/views'})});
 app.get('/logout', function (req, res) {res.sendFile('logout.html', {root: '../Client/views'})});
@@ -65,7 +66,7 @@ app.get('/portfolio', function (req, res) {res.sendFile('portfolio.html', {root:
 //Controllers
 const accountController = require('./Controllers/accountController');
 const cryptoController = require('./Controllers/cryptoController');
-//const portfolioController = require('./Controllers/portfolioController');
+const portfolioController = require('./Controllers/portfolioController');
 
 //routes
 //account
@@ -74,30 +75,20 @@ app.route('/api/account/create').post(accountController.checkCreateAccount);
 app.route('/api/account').get(accountController.getAccount);
 app.route('/api/account').post(accountController.updateAccount);
 app.route('/api/account').delete(accountController.deleteCurrentAccount);
-//app.route('/api/account/delete').post(accountController.deleteUserAccount);
-app.route('/api/account/logout').get(accountController.logout);
+app.route('/api/account/logout').post(accountController.logout);
 app.route('/api/account/session').get(accountController.getSession);
 app.route('/api/accounts').get(accountController.getAccounts);
 //crypto
 //app.route('/api/crypto/search').get(cryptoController.searchCurrencies);
 //app.route('/api/crypto/sort').post(cryptoController.sortCurrencies);
-/*
-app.get('/api/crypto/get', function(req, res){
-    console.log("in the print request");
-    cryptoController.printCrypto(req, res);
-});
-*/
 app.get('/api/crypto/get', cryptoController.printCrypto);
 app.get('/api/crypto/detail/:id', function(req, res){
     console.log("in the detail request");
     cryptoController.viewDetail(req, res);
 });
-/*
-app.route('/api/crypto/detail/:id').get(cryptoController.viewDetail);
-*/
 //portfolio
-//app.route('/api/portfolio/get').get(portfolioController.getPortfolio);
-//app.route('/api/portfolio/buy').get(portfolioController.buyCrypto);
-//app.route('/api/portfolio/sell').get(portfolioController.sellCrypto);
+app.route('/api/portfolio/get').get(portfolioController.getPortfolio);
+app.route('/api/portfolio/buy').post(portfolioController.buyCrypto);
+app.route('/api/portfolio/sell').post(portfolioController.sellCrypto);
 
 app.listen(port, () => {console.log(`Crypto Data Website listening on port ${port}`)});
