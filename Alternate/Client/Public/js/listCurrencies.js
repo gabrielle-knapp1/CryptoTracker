@@ -37,6 +37,7 @@ window.getCurrencies = async function getCurrencies() {
                 const cellSymbol = row.insertCell(2);
                 const cellPrice = row.insertCell(3);
                 const cellChange = row.insertCell(4);
+                const purchase = row.insertCell(5);
 
                 // Create a button and append it to the cell
                 const button = createButton(index + 1, () => viewDetail(crypto.name));
@@ -47,7 +48,8 @@ window.getCurrencies = async function getCurrencies() {
                 cellSymbol.textContent = crypto.symbol;
                 cellPrice.textContent = crypto.quote.USD.price.toFixed(2);
                 cellChange.textContent = crypto.quote.USD.percent_change_24h.toFixed(2);
-
+                const buyButton = createButton("Buy Crypto", () => buyCrypto(crypto));
+                purchase.appendChild(buyButton);
             });
         }
     } catch (error) {
@@ -113,7 +115,74 @@ function createButton(text, clickHandler) {
 }
 const closeModalButton = document.getElementById('closeModal');
 const cryptoModal = document.getElementById('cryptoModal');
-
+async function buyCrypto(crypto) {
+    try {
+      // Prompt the user for the amount of crypto to buy
+      const amount = prompt(`How much of ${crypto.name} do you want to buy?`);
+  
+      if (amount === null) {
+        // User clicked "Cancel" in the prompt
+        return;
+      }
+  
+      // Convert the amount to a number (assuming it's a valid number)
+      const numericAmount = parseFloat(amount);
+  
+      if (isNaN(numericAmount) || numericAmount <= 0) {
+        // Invalid input or amount <= 0
+        alert('Please enter a valid positive number for the amount.');
+        return;
+      }
+  
+      const purchaseTime = new Date().toISOString();
+  
+      const response = await fetch(`/api/portfolio/buy`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          symbol: crypto.symbol,
+          name: crypto.name,
+          amount: numericAmount,
+          purchaseTime,
+          price: crypto.quote.USD.price.toFixed(2),
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        alert('Purchase Successful - view in portfolio');
+      }
+    } catch (error) {
+      console.error('Error making purchase:', error);
+      alert('An error occurred while making a purchase');
+    }
+  }
+/*
+async function buyCrypto(symbol, name){
+    try {
+        const response = await fetch('/api/portfolio/buy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({symbol, name})
+        });
+        if (!response.ok) {throw new Error('Network response was not ok');}
+            const data = await response.json();
+            //console.log(data);
+            if (data.success) {
+                alert("Purchase Successful- view in portfolio");
+            }
+    }
+        catch (error) {
+            console.error('Error making purchase:', error);
+            alert('An error occurred while making a purchase');
+        }
+}
+*/
 closeModalButton.addEventListener('click', () => {
     cryptoModal.close();
 });
