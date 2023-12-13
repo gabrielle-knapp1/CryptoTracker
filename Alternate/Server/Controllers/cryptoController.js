@@ -47,7 +47,7 @@ async function viewDetail(req, res) {
 
 async function viewDetail(req, res) {
   console.log("in the viewDetail");
-  console.log(req.params);
+  console.log("params for viewDetail", req.params);
   const id = req.params.id; // Use req.params to get the id parameter
 
   try {
@@ -62,11 +62,11 @@ async function viewDetail(req, res) {
     let correctCurrency;
 
     for (let i = 0; i < dataOb.length; i++) {
-      console.log(dataOb[i].name);
-      console.log(id);
+      console.log("name of crypto where I am", dataOb[i].name);
+      console.log("name of target crypto", id);
       if (dataOb[i].name === id) {
         correctCurrency = dataOb[i];
-        console.log(correctCurrency);
+        //console.log(correctCurrency);
         break; // exit the loop once the correct currency is found
       }
     }
