@@ -3,8 +3,6 @@
 
 <head>
     <script src="/js/portfolio.js"></script>
-    <script src="/js/global.js"></script>
-    <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/portfolio.css">
 </head>
 
@@ -22,58 +20,27 @@
     <div style="padding-left:8px">
         <div class="center">
             <h2>Portfolio HTML</h2>
-            <p>Click Space Bar to return to main</p>
         </div>
     </div>
 
-    </table>
-    <table id="crytoPTable">
-        <thread>
-            <tr>
-                <th id="name1">Name</th>
-                <th id="symbol">Symbol</th>
-                <th id="price">Price</th>
-                <th id="change24">24H Change</th>
-                <th id="purchaseA">Purchase Amount</th>
-                <th id="purchaseP">Purchase Price</th>
-                <th id="purchaseV">Purchase Value</th>
-                <th id="currentV">Current Value</th>
-                <th id="change">% Change</th>
-            </tr>
-        </thread>
+    <h2>Your Account Portfolio</h2>
+    <table>
+      <thead>
         <tr>
-            <td>Lauren</td>
-            <td>--</td>
-            <td>120</td>
-            <td>10</td>
-            <td>30</td>
-            <td>40</td>
-            <td>100 units</td>
-            <td>23</td>
-            <td>20</td>
+            <th id="name1">Name</th>
+            <th id="symbol">Symbol</th>
+            <th id="price">Current Price (USD)</th>
+            <th id="change24">Purchase Amount</th>
+            <th id="purchaseA">Purchase Price</th>
+            <th id="purchaseP">Base Value</th>
+            <th id="purchaseV">Current Value</th>
+            <th id="currentV">Value Change</th>
+            <th id="change">Sell</th>
         </tr>
-        <tr>
-            <td>Amy</td>
-            <td>--</td>
-            <td>130</td>
-            <td>140</td>
-            <td>3</td>
-            <td>50</td>
-            <td>900 units</td>
-            <td>53</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>Declan</td>
-            <td>--</td>
-            <td>100</td>
-            <td>102</td>
-            <td>310</td>
-            <td>20</td>
-            <td>110 units</td>
-            <td>28</td>
-            <td>29</td>
-        </tr>
+      </thead>
+      <tbody id="cryptoTableBody">
+        <!-- Table rows will be dynamically added here -->
+      </tbody>
     </table>
 </body>
 
