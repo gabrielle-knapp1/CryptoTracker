@@ -8,6 +8,7 @@ function init() {
     let z=document.getElementById("home");
     z.addEventListener("click",function(){document.location.href='/home'});
 }
+//calls logout in accountController
 function logout() {
     // Assuming you have a route on the server to handle logout, for example, '/logout'
     fetch('api/account/logout', {

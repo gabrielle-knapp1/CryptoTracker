@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
 });
 
+//creates references to other files
 function init() {
     let x=document.getElementById("logout");
     x.addEventListener("click",function(){document.location.href='/logout'});
@@ -17,6 +18,7 @@ function init() {
 }
 
 //this works!
+//calls getAccount from accountController
 async function getAccount() {
     try {
         const response = await fetch('/api/account', {
@@ -40,6 +42,7 @@ async function getAccount() {
     }
 }
 //currently it doesn't work right, throws error and doesn't update
+//calls updateAccount from accountController
 async function updateAccount() {
     try {
         const username = document.getElementById('usernameInput').value;
@@ -68,6 +71,7 @@ async function updateAccount() {
     }
 }
 //works
+//deletes account
 function ConfirmDeleteAccount() {
     const userConfirmed = confirm('Are you sure you want to delete your account?');
     console.log(userConfirmed);
@@ -76,6 +80,7 @@ function ConfirmDeleteAccount() {
 }
 
 //deletes the account BUT an error is thrown
+//calls from accountController
 async function DeleteAccount() {
     try {
         const response = await fetch('/api/account', {
@@ -90,7 +95,8 @@ async function DeleteAccount() {
         alert('An error occurred while deleting your account');
     }
 }
-//unsure if this works and if it does where it is called
+//unsure if this works
+//calls from account controller
 async function GoHome() {
     try {
         const response = await fetch('/api/account/session', {

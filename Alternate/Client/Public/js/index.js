@@ -1,3 +1,4 @@
+//logins, calls the loginData from index.js
 function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -10,6 +11,7 @@ function login() {
     TryLogin(loginData, "/home");
 }
 
+//signs up
 function signUp() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -22,6 +24,7 @@ function signUp() {
     TrySignUp(loginData, "/home");
 }
 
+//calls the login from the accountController
 async function TryLogin(loginData, page) {
     try {
         const response = await fetch("/api/account/login", {
@@ -39,6 +42,7 @@ async function TryLogin(loginData, page) {
     }
 }
 
+//calls signUP from the accountController
 async function TrySignUp(loginData, page) {
     try {
         const response = await fetch("/api/account/create", {

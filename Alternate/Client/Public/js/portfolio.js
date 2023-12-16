@@ -10,6 +10,7 @@ function inits() {
     let z=document.getElementById("home");
     z.addEventListener("click",function(){document.location.href='/home'});
 }
+//refreshes data
 async function RefreshTable() {
     try {
         const response = await fetch('/api/portfolio/get', {
@@ -47,7 +48,7 @@ async function RefreshTable() {
         alert('An error occurred while fetching portfolio data');
     }
 }
-
+//creates button
 function createButton(text, clickHandler) {
     const button = document.createElement('button');
     button.type = 'button';
@@ -56,7 +57,7 @@ function createButton(text, clickHandler) {
     button.addEventListener('click', clickHandler);
     return button;
 }
-
+//sells data
 async function sellCrypto (name){
     try {
         const response = await fetch('/api/portfolio/sell', {

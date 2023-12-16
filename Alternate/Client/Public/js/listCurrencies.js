@@ -12,10 +12,11 @@ function init() {
     z.addEventListener("click",function(){document.location.href='/account'});
 }
 
-// Define the getCurrencies function in the global scope
-window.getCurrencies = async function getCurrencies() {
+//calls the sort and get from the cryptoController
+window.setSort = async function setSort(field){
+    let sortF = field;
     try {
-        const response = await fetch('/api/crypto/get', {
+        const response = await fetch(`/api/crypto/get/sort?sortField=${sortF}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -25,7 +26,7 @@ window.getCurrencies = async function getCurrencies() {
         }
 
         const data = await response.json();
-
+        //console.log("name of cateogry: ",sortF);
         if (data.success) {
             const cryptoTableBody = document.getElementById('cryptoTableBody');
             cryptoTableBody.innerHTML = '';
@@ -58,6 +59,7 @@ window.getCurrencies = async function getCurrencies() {
     }
 }
 
+//calls the view detail from the cryptoController
 async function viewDetail(index) {
     alert("looking at " + index);
     try {
@@ -105,6 +107,7 @@ async function viewDetail(index) {
     }
 }
 
+//creates a button
 function createButton(text, clickHandler) {
     const button = document.createElement('button');
     button.type = 'button';
@@ -113,8 +116,11 @@ function createButton(text, clickHandler) {
     button.addEventListener('click', clickHandler);
     return button;
 }
+
 const closeModalButton = document.getElementById('closeModal');
 const cryptoModal = document.getElementById('cryptoModal');
+
+//buys the crypto
 async function buyCrypto(crypto) {
     try {
       // Prompt the user for the amount of crypto to buy
@@ -162,27 +168,7 @@ async function buyCrypto(crypto) {
       alert('An error occurred while making a purchase');
     }
   }
-/*
-async function buyCrypto(symbol, name){
-    try {
-        const response = await fetch('/api/portfolio/buy', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({symbol, name})
-        });
-        if (!response.ok) {throw new Error('Network response was not ok');}
-            const data = await response.json();
-            //console.log(data);
-            if (data.success) {
-                alert("Purchase Successful- view in portfolio");
-            }
-    }
-        catch (error) {
-            console.error('Error making purchase:', error);
-            alert('An error occurred while making a purchase');
-        }
-}
-*/
+  
 closeModalButton.addEventListener('click', () => {
     cryptoModal.close();
 });
