@@ -23,11 +23,11 @@
   <table>
     <thead>
       <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Symbol</th>
-        <th>Price (USD)</th>
-        <th>% Change 24H</th>
+        <th><button onclick = "setSort('index')">#</button></th>
+        <th><button onclick = "setSort('name')">Name</button></th>
+        <th><button onclick = "setSort('symbol')">Symbol</button></th>
+        <th><button onclick = "setSort('price')"> Price (USD)</button></th>
+        <th><button onclick = "setSort('quote.USD.percent_change_24h')">% Change 24H</button></th>
         <!-- Add more columns for other attributes as needed -->
       </tr>
     </thead>
@@ -41,7 +41,7 @@
     </div>
     <button id="closeModal">Close</button>
   </dialog>
-  <button onclick="getCurrencies()">Get Crypto</button>
+  <button onclick="setSort('index')">Get Crypto</button>
 </body>
 
 </html>
