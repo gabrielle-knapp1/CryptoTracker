@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const apiKey = 'ccbbd297-efee-408f-8a20-85e05ec55d66';
 const apiUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
-
+//connects to mysql
 const connection = mysql.createConnection({
     host: 'localhost',
     //make hash so it is not viewable by malicious user
@@ -19,7 +19,7 @@ connection.connect((error) => {
     }
     console.log('Connection established sucessfully');
 });
-
+//Allows for select queries in mysql
 async function selectQuery(sql, values) {
     return new Promise((resolve, reject) => {
         connection.query(sql, values, function (err, result, fields) {

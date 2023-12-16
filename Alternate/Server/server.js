@@ -47,13 +47,7 @@ function requireLogin(req, res, next) {
         return res.redirect('/');
     }
 }
-// Serve static files from the 'public' directory
-/*
-app.get('/', (req, res) => {
-    const filePath = path.join(__dirname, '..', 'Client', 'views', 'listCurrencies.html');
-    console.log('Resolved file path:', filePath);
-    res.sendFile(filePath);
-});*/
+
 //views
 app.get('/', function (req, res) {res.sendFile('index.html', {root: '../Client/views'})});
 app.get('/index', function (req, res) {res.sendFile('index.html', {root: '../Client/views'})});
@@ -79,16 +73,15 @@ app.route('/api/account/logout').post(accountController.logout);
 app.route('/api/account/session').get(accountController.getSession);
 app.route('/api/accounts').get(accountController.getAccounts);
 //crypto
-//app.route('/api/crypto/search').get(cryptoController.searchCurrencies);
-//app.route('/api/crypto/sort').post(cryptoController.sortCurrencies);
 app.get('/api/crypto/get', cryptoController.printCrypto);
 app.get('/api/crypto/detail/:id', function(req, res){
     console.log("in the detail request");
     cryptoController.viewDetail(req, res);
 });
+app.get('/api/crypto/get/sort', cryptoController.sortCrypto);
 //portfolio
 app.route('/api/portfolio/get').get(portfolioController.getPortfolio);
 app.route('/api/portfolio/buy').post(portfolioController.buyCrypto);
 app.route('/api/portfolio/sell').post(portfolioController.sellCrypto);
-
+//sets them on a port
 app.listen(port, () => {console.log(`Crypto Data Website listening on port ${port}`)});
