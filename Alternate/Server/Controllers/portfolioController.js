@@ -4,6 +4,7 @@ const axios = require('axios');
 const apiKey = 'ccbbd297-efee-408f-8a20-85e05ec55d66';
 const apiUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
 
+//gets all portfolio data
 async function getPortfolio(req, res) {
     try {
         const cart = await mysql.selectQuery(
@@ -16,7 +17,7 @@ async function getPortfolio(req, res) {
             [req.session.username]
         );
     
-        console.log("cart data: ", cart);
+        console.log("portfolio data: ", cart);
         console.log("transaction data: ", transaction);
         const portfolioData = [];
 
@@ -35,12 +36,13 @@ async function getPortfolio(req, res) {
                 for (let j = 0; j < dataOb.length; j++) {
                     if (dataOb[j].name === cart[i].name) {
                         console.log("match!");
+                        console.log(transaction[i].price);
                         const currencyInfo = {
                             name: dataOb[j].name,
                             symbol: dataOb[j].symbol,
                             price: dataOb[j].quote.USD.price.toFixed(2),
                             amount: transaction[i].amount,
-                            pPrice: transaction[i].price.toFixed(2),
+                            pPrice: transaction[i].price,
                             bValue: transaction[i].price *transaction[i].amount,
                             cValue: dataOb[j].quote.USD.price.toFixed(2) *transaction[i].amount
                         };
@@ -72,6 +74,7 @@ async function getPortfolio(req, res) {
     }
 }
 
+//function for buying data
 async function buyCrypto(req, res) {
     let response = {
         success: true,
@@ -102,6 +105,7 @@ async function buyCrypto(req, res) {
     }
 }
 
+//function for selling crypto
 async function sellCrypto(req, res) {
     const name = req.body.name;
     try {

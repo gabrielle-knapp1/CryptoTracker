@@ -2,11 +2,25 @@ const axios = require('axios');
 
 const apiKey = 'ccbbd297-efee-408f-8a20-85e05ec55d66';
 const apiUrl = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
-/*
-async function viewDetail(req, res) {
-  console.log("in the viewDetail");
-  const id = req.params.index; // Use req.params to get the id parameter
 
+//sort and get crypto tables
+async function sortCrypto(req, res) {
+  let order = req.session.order;
+  const sortField = req.query.sortField;
+  let isString = true;
+  let isChanged = false;
+  let isPrice = false;
+  if (sortField === 'price' || sortField === 'quote.USD.percent_change_24h' || sortField === 'index') {
+    if (sortField === 'quote.USD.percent_change_24h') {
+      isChanged = true;
+    }
+    if (sortField === 'price') {
+      isPrice = true;
+    }
+    console.log("changing isString, isString is now: ", isString);
+    isString = false;
+    console.log("isString is now: ", isString);
+  }
   try {
     const response = await axios.get(apiUrl, {
       headers: {
@@ -15,39 +29,149 @@ async function viewDetail(req, res) {
     });
 
     const json = response.data;
-    const dataArray = json.data;
-    //console.log(json); // Add this line to see the structure of the response
-     console.log(typeof(dataArray));
-     console.log(dataArray);
-    // Check if json.data is defined and has the expected structure
-    if (dataArray && dataArray[id]) {
-      // Send the JSON response back to the client
-      res.status(200).json({
-        success: true,
-        body: dataArray[id], // sends back the row of that particular id
-      });
-    } else {
-      console.error('Invalid data structure:');
-      res.status(500).json({
-        success: false,
-        message: 'Invalid data structure received from the API',
-      });
+    const initial = json.data;
+    const dataOb = json.data;
+
+    let sortedData;
+
+    //This works!
+    //sorts name and symbol data
+    if (order === "des") {
+      //sorts descending data
+      console.log(order);
+      if (isString) {
+        //console.log("Category is: ", sortField, "isString is: ", isString);
+
+        sortedData = dataOb.sort((a, b) => {
+          //console.log("Compared A: ",a);
+          const valueA = a[sortField];
+          const valueB = b[sortField];
+
+          if (valueA === undefined || valueB === undefined) {
+            // Handle the case where a[sortField] or b[sortField] is undefined
+            return 0; // or any other default value
+          }
+          //THis is set up as descending A-Z
+          return valueA.localeCompare(valueB);
+        });
+      }
+      //This works!! 
+      //sorts % change data
+      else if (isChanged) {
+        sortedData = dataOb.slice().sort((a, b) => {
+          const valueA = parseFloat(a.quote.USD.percent_change_24h);
+          const valueB = parseFloat(b.quote.USD.percent_change_24h);
+
+          if (isNaN(valueA) || isNaN(valueB)) {
+            // Handle the case where a.quote.USD[sortField] or b.quote.USD[sortField] is not a valid number
+            console.log(a.quote.USD.percent_change_24h, " and ", b.quote.USD.percent_change_24h, " is not a valid number!"); // or any other default value
+            return 0; // or another default behavior
+          }
+          //set up here as descending
+          return valueB - valueA;
+        });
+      }
+      //This works now
+      //sorts price data
+      else if (isPrice) {
+        sortedData = dataOb.slice().sort((a, b) => {
+          const valueA = parseFloat(a.quote.USD.price);
+          //console.log("a price is :", a.quote.USD.price);
+          const valueB = parseFloat(b.quote.USD.price);
+
+          if (valueA === undefined || valueB === undefined) {
+            // Handle the case where a[price] or b[price] is undefined
+            console.log(a.quote.USD.price, " and ", b.quote.USD.price, " is undefined!"); // or any other default value
+          }
+          //console.log("percent changed", [a.quote.USD.percent_change_24h]);
+          return valueB - valueA;
+        });
+      }
+      else {
+        sortedData = initial;
+      }
+      req.session.order = "asc";
     }
+    else {
+      //sorts ascending data
+      console.log(order);
+      if (isString) {
+        //sorts name and symbol data
+        sortedData = dataOb.sort((a, b) => {
+          //console.log("Compared A: ",a);
+          const valueA = a[sortField];
+          const valueB = b[sortField];
+
+          if (valueA === undefined || valueB === undefined) {
+            // Handle the case where a[sortField] or b[sortField] is undefined
+            return 0; // or any other default value
+          }
+          //THis is set up as descending A-Z
+          return valueB.localeCompare(valueA);
+        });
+      }
+      //This works!! 
+      //sorts % changed data
+      else if (isChanged) {
+        sortedData = dataOb.slice().sort((a, b) => {
+          const valueA = parseFloat(a.quote.USD.percent_change_24h);
+          const valueB = parseFloat(b.quote.USD.percent_change_24h);
+
+          if (isNaN(valueA) || isNaN(valueB)) {
+            // Handle the case where a.quote.USD[sortField] or b.quote.USD[sortField] is not a valid number
+            console.log(a.quote.USD.percent_change_24h, " and ", b.quote.USD.percent_change_24h, " is not a valid number!"); // or any other default value
+            return 0; // or another default behavior
+          }
+          //set up here as descending
+          return valueA - valueB;
+        });
+      }
+      //This works now
+      //sorts price data
+      else if (isPrice) {
+        sortedData = dataOb.slice().sort((a, b) => {
+          const valueA = parseFloat(a.quote.USD.price);
+          //console.log("a price is :", a.quote.USD.price);
+          const valueB = parseFloat(b.quote.USD.price);
+
+          if (valueA === undefined || valueB === undefined) {
+            // Handle the case where a[price] or b[price] is undefined
+            console.log(a.quote.USD.price, " and ", b.quote.USD.price, " is undefined!"); // or any other default value
+          }
+          //console.log("percent changed", [a.quote.USD.percent_change_24h]);
+          return valueA - valueB;
+        });
+      }
+      //Need to make this flipped
+      //sorts index data
+      else {
+        sortedData = initial;
+      }
+      req.session.order = "des";
+    }
+
+
+    // Send the JSON response back to the client
+    res.status(200).json({
+      success: true,
+      body: sortedData,
+    });
   } catch (error) {
-    console.error('Error fetching crypto data:', error);
+    console.error('Error sorting data:', error);
 
     // Send an error response back to the client
     res.status(500).json({
       success: false,
-      message: 'An error occurred while fetching crypto data',
+      message: 'An error occurred while sorting data',
     });
   }
-}
-*/
 
+}
+
+//allows the popup of the detail
 async function viewDetail(req, res) {
   console.log("in the viewDetail");
-  console.log("params for viewDetail", req.params);
+  //console.log("params for viewDetail", req.params);
   const id = req.params.id; // Use req.params to get the id parameter
 
   try {
@@ -87,6 +211,7 @@ async function viewDetail(req, res) {
   }
 }
 
+//prints out the data
 async function printCrypto(req, res) {
   console.log("in the printCrypto");
   try {
@@ -118,4 +243,5 @@ async function printCrypto(req, res) {
 module.exports = {
   viewDetail,
   printCrypto,
+  sortCrypto,
 };

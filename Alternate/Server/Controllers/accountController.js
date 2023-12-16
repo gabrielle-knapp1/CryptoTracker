@@ -2,10 +2,12 @@
 const mysqls = require('../mysql');
 const crypto = require('crypto');
 
+//hashes passoword
 const hashPassword = password => {
     return crypto.createHash('sha256').update(password).digest('hex').substring(0, 20);
 };
 
+//checks login features
 async function checkLogin(req, res) {
     console.log("check login");
     const { username, password } = req.body;
@@ -28,6 +30,7 @@ async function checkLogin(req, res) {
     res.send(response);
 }
 
+//checks creating account
 async function checkCreateAccount(req, res) {
     console.log("check create account");
     const { username, password } = req.body;
@@ -51,10 +54,12 @@ async function checkCreateAccount(req, res) {
     response.createValid = true;
     response.message = "Account created";
     req.session.username = username;
+    req.session.order = "des";
     mysqls.insertQuery("insert into account(username, password) values (?, ?)", [username, hashPassword(password)]);
     res.send(response);
 }
 
+//fetches account data from mysql
 async function getAccount(req, res) {
     const username = req.session.username;
     if (!username) {
@@ -68,6 +73,7 @@ async function getAccount(req, res) {
     }
 }
 
+//updates account --> doesn't work right!!
 function updateAccount(req, res) {
     try {
         const { username, firstname, lastname, DOB, password} = req.body;
@@ -106,6 +112,7 @@ function updateAccount(req, res) {
     }
 }
 
+//deletes account --> also works weird
 function deleteCurrentAccount(req, res) {//to delete your own account
     try {
         const username = req.session.username;
@@ -117,15 +124,18 @@ function deleteCurrentAccount(req, res) {//to delete your own account
     }
 }
 
+//logsout
 function logout(req, res) {
     req.session.destroy();
     res.send({message: "Your are logged out"});
 }
 
+//gets session info
 function getSession(req, res) {
     res.send({session: req.session});
 }
 
+//gets account info
 async function getAccounts(req, res) {
     const rows = await mysqls.selectQuery("select username, firstName, lastName, DOB, password from account", []);
     res.send({ success: true, accounts: rows});
