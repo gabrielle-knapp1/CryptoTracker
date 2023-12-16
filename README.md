@@ -4,36 +4,36 @@ Sophomore, Computer Science Major, Marist College
 
 **Languages Used**: Javascript (primary), HTML, CSS, SQL
 **Organization**:
-Alternate
-  Client
-    Public
-      css
-        account.css
-        index.css
-        listCurrencies.css
-        logout.css
-        portfolio.css
-      js
-        account.js
-        index.js
-        listCurrencies.js
-        logout.js
-        portfolio.js
-      images
-        bitcoin.jpg
-    views
-      account.html
-      index.html
-      listCurrencies.html
-      logout.html
-      portfolio.html
-  Server
-    mysql.js
-    server.js
-    Controllers
-      portfolioController.js
-      accountController.js
-      cryptoController.js
+- Alternate
+  - Client
+    - Public
+      - css
+        - account.css
+        - index.css
+        - listCurrencies.css
+        - logout.css
+        - portfolio.css
+      - js
+        - account.js
+        - index.js
+        - listCurrencies.js
+        - logout.js
+        - portfolio.js
+      - images
+        - bitcoin.jpg
+    - views
+      - account.html
+      - index.html
+      - listCurrencies.html
+      - logout.html
+      - portfolio.html
+  - Server
+    - mysql.js
+    - server.js
+    - Controllers
+      - portfolioController.js
+      - accountController.js
+      - cryptoController.js
 
 **Description**:
 The **realtime data**, presented in the ‘listCurrencies.html’ file, updates every time you refresh the page
